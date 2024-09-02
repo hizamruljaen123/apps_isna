@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>Dashboard</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/Navbar-With-Button-icons.css">
+        <link rel="stylesheet" href="assets/css/styles.css">
+    </head>
+    <body>
+        <nav class="navbar navbar-light navbar-expand-md py-3">
+            <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center mr-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-bezier">
+            <path fill-rule="evenodd" d="M0 10.5A1.5 1.5 0 0 1 1.5 9h1A1.5 1.5 0 0 1 4 10.5v1A1.5 1.5 0 0 1 2.5 13h-1A1.5 1.5 0 0 1 0 11.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm10.5.5A1.5 1.5 0 0 1 13.5 9h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM6 4.5A1.5 1.5 0 0 1 7.5 3h1A1.5 1.5 0 0 1 10 4.5v1A1.5 1.5 0 0 1 8.5 7h-1A1.5 1.5 0 0 1 6 5.5zM7.5 4a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"></path>
+        <path d="M6 4.5H1.866a1 1 0 1 0 0 1h2.668A6.517 6.517 0 0 0 1.814 9H2.5c.123 0 .244.015.358.043a5.517 5.517 0 0 1 3.185-3.185A1.503 1.503 0 0 1 6 5.5zm3.957 1.358A1.5 1.5 0 0 0 10 5.5v-1h4.134a1 1 0 1 1 0 1h-2.668a6.517 6.517 0 0 1 2.72 3.5H13.5c-.123 0-.243.015-.358.043a5.517 5.517 0 0 0-3.185-3.185z"></path>
+        </svg></span><span>Brand</span></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link active" href="#">First Item</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Second Item</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Third Item</a></li>
+                </ul><a class="btn btn-primary" role="button" href="#">Button</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body text-left text-white bg-dark border rounded-0">
+                        <h4 class="card-title">SVM Apps</h4>
+                        <hr style="background: #ffffff;"><button class="btn btn-outline-light" type="button" style="width:100%;" data-toggle="modal" data-target="#modal-1">Tambah Data</button><button class="btn btn-outline-light" type="button" style="width: 100%;margin-top: 18px;" data-toggle="modal" data-target="#modal-2">Data Latih</button><button class="btn btn-outline-light" type="button" style="width: 100%;margin-top: 18px;">Data Uji</button><button class="btn btn-outline-light" type="button" style="width: 100%;margin-top: 18px;">Grafik Hyperplane</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title">Frekuensi Hasil Klasifikasi</h6>
+                                <div><canvas data-bss-chart="{&quot;type&quot;:&quot;bar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;bold&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}}],&quot;yAxes&quot;:[{&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}}]}}}"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title">Frekuensi Berdasarkan Jenis Kelamin</h6>
+                                <div><canvas data-bss-chart="{&quot;type&quot;:&quot;bar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;bold&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}}],&quot;yAxes&quot;:[{&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}}]}}}"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Data Latih</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover table-dark">
+                                        <thead>
+                                            <tr>
+                                                <th>Column 1</th>
+                                                <th>Column 2</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Cell 1</td>
+                                                <td>Cell 2</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Cell 3</td>
+                                                <td>Cell 4</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" role="dialog" tabindex="-1" id="modal-2">
+                            <div class="modal-dialog modal-xl" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Modal Title</h4><button class="close" aria-label="Close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+                                    </div><div class="modal-body">
+                                    <table class="table table-striped table-bordered" style="font-size:12px;">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Nama</th>
+                                                <th scope="col">Usia (bulan)</th>
+                                                <th scope="col">Jenis Kelamin</th>
+                                                <th scope="col">Berat Badan Saat Lahir (kg)</th>
+                                                <th scope="col">Tinggi Badan Saat Lahir (cm)</th>
+                                                <th scope="col">Berat Badan Saat Ini (kg)</th>
+                                                <th scope="col">Tinggi Badan Saat Ini (cm)</th>
+                                                <th scope="col">Z-Score Berat Badan</th>
+                                                <th scope="col">Z-Score Tinggi Badan</th>
+                                                <th scope="col">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td scope="row">1</td>
+                                                <td>Nama Anak 1</td>
+                                                <td>12</td>
+                                                <td>Laki-laki</td>
+                                                <td>3.5</td>
+                                                <td>50</td>
+                                                <td>7.2</td>
+                                                <td>65</td>
+                                                <td>0.5</td>
+                                                <td>0.4</td>
+                                                <td><button class="btn btn-danger btn-sm">Hapus</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="row">2</td>
+                                                <td>Nama Anak 2</td>
+                                                <td>18</td>
+                                                <td>Perempuan</td>
+                                                <td>3.1</td>
+                                                <td>48</td>
+                                                <td>8.0</td>
+                                                <td>70</td>
+                                                <td>0.6</td>
+                                                <td>0.5</td>
+                                                <td><button class="btn btn-danger btn-sm">Hapus</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button><button class="btn btn-primary" type="button">Save</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><div id="modal-1" class="modal fade" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Modal Title</h4><button class="close" aria-label="Close" data-dismiss="modal" type="button"><span aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-row">
+                    <div class="col-md-6 form-group"><label for="nama">Nama</label><input id="nama" class="form-control form-control" type="text" placeholder="Masukkan Nama" /></div>
+                    <div class="col-md-6 form-group"><label for="usia">Usia</label><input id="usia" class="form-control form-control" type="number" placeholder="Masukkan Usia" /></div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 form-group"><label for="jenisKelamin">Jenis Kelamin</label><select id="jenisKelamin" class="form-control form-control">
+                    <option value selected>Pilih...</option>
+                    <option value="Laki-laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                </select></div>
+                <div class="col-md-6 form-group"><label for="beratLahir">Berat Badan Saat Lahir (kg)</label><input id="beratLahir" class="form-control form-control" type="number" placeholder="Masukkan Berat Badan Saat Lahir (kg)" /></div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 form-group"><label for="tinggiLahir">Tinggi Badan Saat Lahir (cm)</label><input id="tinggiLahir" class="form-control form-control" type="number" placeholder="Masukkan Tinggi Badan Saat Lahir (cm)" /></div>
+                <div class="col-md-6 form-group"><label for="beratSekarang">Berat Badan Saat Ini (kg)</label><input id="beratSekarang" class="form-control form-control" type="number" placeholder="Masukkan Berat Badan Saat Ini (kg)" /></div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 form-group"><label for="tinggiSekarang">Tinggi Badan Saat Ini (cm)</label><input id="tinggiSekarang" class="form-control form-control" type="number" placeholder="Masukkan Tinggi Badan Saat Ini (cm)" /></div>
+                <div class="col-md-6 form-group"><label for="usiaBulan">Usia (bulan)</label><input id="usiaBulan" class="form-control form-control" type="number" placeholder="Masukkan Usia (bulan)" /></div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 form-group"><label for="zScoreBerat">Z-Score Berat Badan</label><input id="zScoreBerat" class="form-control form-control" type="number" placeholder="Masukkan Z-Score Berat Badan" step="0.01" /></div>
+                <div class="col-md-6 form-group"><label for="zScoreTinggi">Z-Score Tinggi Badan</label><input id="zScoreTinggi" class="form-control form-control" type="number" placeholder="Masukkan Z-Score Tinggi Badan" step="0.01" /></div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button><button class="btn btn-primary" type="button">Save</button></div>
+</div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script src="assets/js/bs-init.js"></script>
+</body>
+</html>

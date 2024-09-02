@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-2 d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <h4 class="text-center mt-3">Admin Dashboard</h4>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Settings
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                Reports
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <header class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                </header>
+
+                <div class="container-fluid">
+                    <!-- Data Latih Section -->
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <h4>Data Latih</h4>
+                            <div class="table-container">
+                                <table class="table table-striped" id="data-latih-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama</th>
+                                            <th>Jenis Kelamin</th>
+                                            <th>Berat Badan Saat Lahir (kg)</th>
+                                            <th>Tinggi Badan Saat Lahir (cm)</th>
+                                            <th>Berat Badan Saat Ini (kg)</th>
+                                            <th>Tinggi Badan Saat Ini (cm)</th>
+                                            <th>Usia (bulan)</th>
+                                            <th>Z-Score Berat Badan</th>
+                                            <th>Z-Score Tinggi Badan</th>
+                                            <th>Status Gizi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data Latih will be injected here by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Uji Section -->
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <h4>Data Uji</h4>
+                            <div class="table-container">
+                                <table class="table table-striped" id="data-uji-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama</th>
+                                            <th>Jenis Kelamin</th>
+                                            <th>Berat Badan Saat Lahir (kg)</th>
+                                            <th>Tinggi Badan Saat Lahir (cm)</th>
+                                            <th>Berat Badan Saat Ini (kg)</th>
+                                            <th>Tinggi Badan Saat Ini (cm)</th>
+                                            <th>Usia (bulan)</th>
+                                            <th>Z-Score Berat Badan</th>
+                                            <th>Z-Score Tinggi Badan</th>
+                                            <th>Klasifikasi Z score-TB</th>
+                                            <th>Klasifikasi Z score-BB</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data Uji will be injected here by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hasil Prediksi Section -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h4>Hasil Prediksi</h4>
+                            <div class="table-container">
+                                <table class="table table-striped" id="hasil-prediksi-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama</th>
+                                            <th>Jenis Kelamin</th>
+                                            <th>Usia (bulan)</th>
+                                            <th>Status Gizi yang Diprediksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Hasil Prediksi will be injected here by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Hasil Prediksi</h4>
+                            <div id="status-gizi-barchart" style="width:100%; height:400px;"></div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h4>Grafik Frekuensi Berdasarkan Jenis Kelamin</h4>
+                            <div id="gender-barchart" style="width:100%; height:400px;"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Grafik Frekuensi Berdasarkan Kelompok Usia</h4>
+                            <div id="age-group-barchart" style="width:100%; height:400px;"></div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <h4>t-SNE Visualization of Predicted Status Gizi</h4>
+                            <div id="tsne-plot">
+                                {{ tsne_plot|safe }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" ></script>
+    <script src="https://cdn.plot.ly/plotly-2.35.0.min.js" charset="utf-8"></script>
+
+    <script>
+        // Fetch and display Data Latih
+        function fetchDataLatih() {
+            $.getJSON('/data-latih', function(data) {
+                var rows = '';
+                data.forEach(function(row) {
+                    rows += '<tr>' +
+                        '<td>' + row.Nama + '</td>' +
+                        '<td>' + row.Jenis_Kelamin + '</td>' +
+                        '<td>' + row.Berat_Badan_Saat_Lahir_kg + '</td>' +
+                        '<td>' + row.Tinggi_Badan_Saat_Lahir_cm + '</td>' +
+                        '<td>' + row.Berat_Badan_Saat_Ini_kg + '</td>' +
+                        '<td>' + row.Tinggi_Badan_Saat_Ini_cm + '</td>' +
+                        '<td>' + row.Usia_bulan + '</td>' +
+                        '<td>' + row.Z_Score_Berat_Badan + '</td>' +
+                        '<td>' + row.Z_Score_Tinggi_Badan + '</td>' +
+                        '<td>' + row.Status_Gizi + '</td>' +
+                    '</tr>';
+                });
+                $('#data-latih-table tbody').html(rows);
+            });
+        }
+
+        // Fetch and display Data Uji
+        function fetchDataUji() {
+            $.getJSON('/data-uji', function(data) {
+                var rows = '';
+                data.forEach(function(row) {
+                    rows += '<tr>' +
+                        '<td>' + row.Nama + '</td>' +
+                        '<td>' + row.Jenis_Kelamin + '</td>' +
+                        '<td>' + row.Berat_Badan_Saat_Lahir_kg + '</td>' +
+                        '<td>' + row.Tinggi_Badan_Saat_Lahir_cm + '</td>' +
+                        '<td>' + row.Berat_Badan_Saat_Ini_kg + '</td>' +
+                        '<td>' + row.Tinggi_Badan_Saat_Ini_cm + '</td>' +
+                        '<td>' + row.Usia_bulan + '</td>' +
+                        '<td>' + row.Z_Score_Berat_Badan + '</td>' +
+                        '<td>' + row.Z_Score_Tinggi_Badan + '</td>' +
+                        '<td>' + row.Klasifikasi_Z_score_TB + '</td>' +
+                        '<td>' + row.Klasifikasi_Z_score_BB + '</td>' +
+                    '</tr>';
+                });
+                $('#data-uji-table tbody').html(rows);
+            });
+        }
+
+       // Fetch and display Hasil Prediksi
+function fetchHasilPrediksi() {
+    $.getJSON('/predict', function(data) {
+        var rows = '';
+        var statusGiziCounts = {};
+        var genderCounts = {};
+        var ageGroupCounts = {};
+        var tsneData = {
+            x: [],
+            y: [],
+            labels: [],
+            genders: []
+        };
+
+        data.forEach(function(row) {
+            // Convert 0 to 'Laki-laki' and 1 to 'Perempuan'
+            var gender = row.Jenis_Kelamin === 0 ? 'Laki-laki' : 'Perempuan';
+
+            // Populating the table
+            rows += '<tr>' +
+                '<td>' + row.Nama + '</td>' +
+                '<td>' + gender + '</td>' +
+                '<td>' + row.Usia_bulan + '</td>' +
+                '<td>' + row.Predicted_Status_Gizi + '</td>' +
+            '</tr>';
+
+            // Collecting data for status gizi, gender, and age group charts
+            if (statusGiziCounts[row.Predicted_Status_Gizi]) {
+                statusGiziCounts[row.Predicted_Status_Gizi]++;
+            } else {
+                statusGiziCounts[row.Predicted_Status_Gizi] = 1;
+            }
+
+            if (!genderCounts[row.Predicted_Status_Gizi]) {
+                genderCounts[row.Predicted_Status_Gizi] = { 'Laki-laki': 0, 'Perempuan': 0 };
+            }
+            genderCounts[row.Predicted_Status_Gizi][gender]++;
+
+            var ageGroup = getAgeGroup(row.Usia_bulan);
+            if (!ageGroupCounts[row.Predicted_Status_Gizi]) {
+                ageGroupCounts[row.Predicted_Status_Gizi] = { '0-12 bulan': 0, '13-24 bulan': 0, '25-36 bulan': 0, '37-48 bulan': 0, '49-60 bulan': 0 };
+            }
+            ageGroupCounts[row.Predicted_Status_Gizi][ageGroup]++;
+
+            // Collecting data for t-SNE visualization
+            tsneData.x.push(row.tsne_x);
+            tsneData.y.push(row.tsne_y);
+            tsneData.labels.push(row.Predicted_Status_Gizi);
+            tsneData.genders.push(gender);
+        });
+
+        $('#hasil-prediksi-table tbody').html(rows);
+
+        // Prepare t-SNE plot
+        plotTSNEChart(tsneData);
+        // Prepare data for the Plotly charts
+        plotStatusGiziChart(statusGiziCounts);
+        plotGenderChart(genderCounts);
+        plotAgeGroupChart(ageGroupCounts);
+    });
+}
+
+function plotTSNEChart(tsneData) {
+    var trace1 = {
+        x: tsneData.x,
+        y: tsneData.y,
+        mode: 'markers',
+        type: 'scatter',
+        text: tsneData.labels.map((label, index) => `${label} (${tsneData.genders[index]})`),
+        marker: {
+            size: 10,
+            color: tsneData.labels.map(label => label === 'Gizi Baik' ? 'green' : label === 'Gizi Buruk' ? 'red' : 'blue'),
+            opacity: 0.6
+        },
+        hoverinfo: 'text'
+    };
+
+    var data = [trace1];
+
+    var layout = {
+        title: 't-SNE Visualization of Predicted Status Gizi',
+        xaxis: {
+            title: 't-SNE 1'
+        },
+        yaxis: {
+            title: 't-SNE 2'
+        }
+    };
+
+    Plotly.newPlot('tsne-chart', data, layout);
+}
+
+function getAgeGroup(usiaBulan) {
+    if (usiaBulan <= 12) return '0-12 bulan';
+    if (usiaBulan <= 24) return '13-24 bulan';
+    if (usiaBulan <= 36) return '25-36 bulan';
+    if (usiaBulan <= 48) return '37-48 bulan';
+    return '49-60 bulan';
+}
+
+function plotStatusGiziChart(statusGiziCounts) {
+    var statusGiziLabels = Object.keys(statusGiziCounts);
+    var statusGiziValues = Object.values(statusGiziCounts);
+
+    var colors = statusGiziLabels.map((label, index) => {
+        return `hsl(${Math.floor(360 / statusGiziLabels.length * index)}, 70%, 50%)`;
+    });
+
+    var data = [{
+        x: statusGiziLabels,
+        y: statusGiziValues,
+        type: 'bar',
+        marker: {
+            color: colors,
+            line: {
+                color: 'rgba(58, 71, 80, 1.0)',
+                width: 2
+            }
+        }
+    }];
+
+    var layout = {
+        title: 'Frekuensi Status Gizi yang Diprediksi',
+        xaxis: {
+            title: 'Status Gizi'
+        },
+        yaxis: {
+            title: 'Frekuensi'
+        }
+    };
+
+    Plotly.newPlot('status-gizi-barchart', data, layout);
+}
+
+function plotGenderChart(genderCounts) {
+    var statusGiziLabels = Object.keys(genderCounts);
+    var maleCounts = statusGiziLabels.map(status => genderCounts[status]['Laki-laki']);
+    var femaleCounts = statusGiziLabels.map(status => genderCounts[status]['Perempuan']);
+
+    var data = [
+        {
+            x: statusGiziLabels,
+            y: maleCounts,
+            name: 'Laki-laki',
+            type: 'bar',
+            marker: { color: 'blue' }
+        },
+        {
+            x: statusGiziLabels,
+            y: femaleCounts,
+            name: 'Perempuan',
+            type: 'bar',
+            marker: { color: 'pink' }
+        }
+    ];
+
+    var layout = {
+        title: 'Frekuensi Status Gizi Berdasarkan Jenis Kelamin',
+        barmode: 'group',
+        xaxis: {
+            title: 'Status Gizi'
+        },
+        yaxis: {
+            title: 'Frekuensi'
+        }
+    };
+
+    Plotly.newPlot('gender-barchart', data, layout);
+}
+
+function plotAgeGroupChart(ageGroupCounts) {
+    var statusGiziLabels = Object.keys(ageGroupCounts);
+    var ageGroups = ['0-12 bulan', '13-24 bulan', '25-36 bulan', '37-48 bulan', '49-60 bulan'];
+    var traces = ageGroups.map((group, i) => ({
+        x: statusGiziLabels,
+        y: statusGiziLabels.map(status => ageGroupCounts[status][group]),
+        name: group,
+        type: 'bar'
+    }));
+
+    var layout = {
+        title: 'Frekuensi Status Gizi Berdasarkan Kelompok Usia',
+        barmode: 'group',
+        xaxis: {
+            title: 'Status Gizi'
+        },
+        yaxis: {
+            title: 'Frekuensi'
+        }
+    };
+
+    Plotly.newPlot('age-group-barchart', traces, layout);
+}
+
+
+
+
+        // Load data on page load
+        $(document).ready(function() {
+            fetchDataLatih();
+            fetchDataUji();
+            fetchHasilPrediksi();
+        });
+    </script>
+</body>
+</html>

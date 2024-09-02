@@ -1,0 +1,259 @@
+/* General Styles */
+body {
+    background-color: #f7f7f7;
+    color: #4a4a4a;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Sidebar Styles */
+  .menu {
+    background-color: #fff;
+    border-right: 1px solid #dbdbdb;
+    padding: 10px;
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    height: 100vh; /* Pastikan sidebar mengambil tinggi penuh */
+    position: fixed; /* Pastikan sidebar tetap di tempat */
+    width: 20%; /* Sesuaikan dengan lebar yang diinginkan */
+  }
+  
+  .menu:hover {
+    transform: translateX(10px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .menu-label {
+    color: #3273dc;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .menu-list a {
+    color: #4a4a4a;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .menu-list a:hover {
+    background-color: #3273dc;
+    color: #fff;
+    transform: translateX(5px);
+  }
+  
+  /* Main Content */
+  .column.is-three-quarters {
+    margin-left: 25%; /* Pastikan konten utama tidak bertabrakan dengan sidebar */
+    padding: 20px;
+  }
+  
+  /* Card Styles */
+  .card {
+    border-radius: 5px;
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    margin-bottom: 20px;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-header-title {
+    color: #3273dc;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .card-header-title:hover {
+    color: #23d160;
+  }
+  
+  .card-content {
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .card-content:hover {
+    background-color: #f5f5f5;
+  }
+  
+  /* Table Wrapper */
+  .table-wrapper {
+    margin-top: 20px; /* Sesuaikan dengan kebutuhan */
+    overflow: hidden; /* Untuk memastikan scroll horizontal ditampilkan */
+  }
+  
+  .table-scroll {
+    overflow-x: auto;
+  }
+  
+  .table-container {
+    white-space: nowrap; /* Pastikan teks tidak melakukan wrap */
+  }
+  
+  /* Table Styles */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+  }
+  
+  .table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    white-space: nowrap; /* Pastikan teks tidak melakukan wrap pada sel */
+  }
+  
+  .table th {
+    background-color: #3273dc;
+    color: #fff;
+  }
+  
+  .table-striped tbody tr:nth-child(odd) {
+    background-color: #f5f5f5;
+  }
+  
+  .table-striped tbody tr:hover {
+    background-color: #23d160;
+    color: #fff;
+  }
+  
+  .table th:hover, .table td:hover {
+    background-color: #3273dc;
+    color: #fff;
+    transform: scale(1.05);
+  }
+  
+  
+  /* Input Field Styles */
+  .input,
+  .textarea,
+  .select select {
+    border-radius: 5px;
+    border: 1px solid #dbdbdb;
+    padding: 10px;
+    box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .input:focus,
+  .textarea:focus,
+  .select select:focus {
+    border-color: #3273dc;
+    box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+  }
+  
+  .field {
+    margin-bottom: 15px;
+  }
+  
+  /* Label Styles */
+  .label {
+    font-weight: bold;
+    color: #363636;
+  }
+  
+  /* File Input Styles */
+  .file-input {
+    border-radius: 5px;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .file-input:focus {
+    border-color: #3273dc;
+    box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+  }
+  
+  /* Button Styles */
+  .button.is-success {
+    background-color: #23d160;
+    border-color: transparent;
+    color: #fff;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .button.is-success:hover {
+    background-color: #22c55e;
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1);
+  }
+  
+  .button.is-success:focus {
+    background-color: #22c55e;
+    box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+  }
+  
+  .button {
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .button:hover {
+    box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1);
+  }
+  
+  .button:focus {
+    box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+  }
+  
+  /* Modal Customization */
+  .modal-card {
+    width: 100%;
+    max-width: 90%;
+    height: 90%;
+  }
+  
+  .modal-card-head,
+  .modal-card-foot {
+    background-color: #f5f5f5;
+  }
+  
+  .modal-card-title {
+    color: #3273dc;
+  }
+  
+  .delete {
+    color: #4a4a4a;
+  }
+  
+  .delete:hover {
+    color: #3273dc;
+  }
+  
+
+  .chart-container {
+    height: 500px;
+    width: 100%;
+  }
+  .columns {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .column {
+    flex: 1;
+    padding: 10px;
+  }
+  /* Responsive Styles */
+  @media screen and (max-width: 768px) {
+    .columns {
+      flex-direction: column;
+    }
+  
+    .column {
+      width: 100%;
+    }
+  
+    .menu {
+      margin-bottom: 20px;
+    }
+  }
+.modal.is-active {
+    display: flex;
+}
+#success-modal {
+    display: none;
+}

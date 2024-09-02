@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Dashboard</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.css">
+		<script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+		
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+	</head>
+	<body>
+		<section class="section">
+            <div class="container">
+              <div class="columns">
+                <!-- Sidebar -->
+                <div class="column is-one-quarter">
+                  <aside class="menu">
+                    <center>
+                      <h4><b>SVM MBKM</b></h4>
+                      <hr>
+                    </center>
+                    <p class="menu-label">
+                      Home
+                    </p>
+                    <ul class="menu-list">
+                      <li><a href="#">Dashboard</a></li>
+                    </ul>
+                    <p class="menu-label">
+                      Data Master
+                    </p>
+                    <ul class="menu-list">
+                      <li><a class="button is-primary" id="open-modal">Tambah Data</a></li>
+                      <li>
+                        <a href="#">Manajemen Data</a>
+                        <ul>
+                          <li><a id="open-modal-data">Data Mahasiswa</a></li>
+                          <li><a id="open-modal-hasil">Data Testing Model</a></li>
+                          <li><a id="open-modal-data-latih" onclick="openExcel()">Data Latih Model</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                    <p class="menu-label">
+                      SVM
+                    </p>
+                    <ul class="menu-list">
+                      <li><a id="open-modal-train-model">Training Model</a></li>
+                      <!-- <li><a id="open-modal-chart">Visualisasi Hasil</a></li> -->
+                    </ul>
+                  </aside>
+                </div>
+          
+                <!-- Main Content -->
+                <div class="column is-three-quarters">
+                  <div class="content">
+                    <h1 class="title">Dashboard</h1>
+					<hr>
+                    <!-- Cards -->
+                    <h3>Hasil Klaifikasi</h3>
+                    <!-- Table -->
+                    <div class="table-wrapper">
+                      <div class="table-container">
+                        <div class="table-scroll">
+                          <table class="table is-fullwidth is-striped">
+                            <thead>
+                              <tr>
+								<th>Nama</th>
+								<th>NIM</th>
+								<th>Jurusan</th>
+								<th>Status Kemahasiswaan</th>
+								<th>Performa IPK</th>
+								<th>Nilai IPK</th>
+								<th>Ikut Organisasi</th>
+								<th>Jumlah Organisasi</th>
+								<th>Scan KTP</th>
+								<th>Upload Sertifikat</th>
+								<th>Upload CV</th>
+								<th>Upload Surat Rekomendasi</th>
+								<th>Lolos MBKM</th>
+                              </tr>
+                            </thead>
+                            <tbody id="svm_result">
+                              <!-- Data Rows -->
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+		<!-- Tambah Data -->
+		<div class="modal" id="modal">
+			<div class="modal-background"></div>
+			<div class="modal-card">
+				<header class="modal-card-head">
+					<p class="modal-card-title">Input Data Mahasiswa</p>
+					<button class="delete" aria-label="close" id="close-modal"></button>
+				</header>
+				<section class="modal-card-body">
+					<!-- Form -->
+					<form id="student-form" enctype="multipart/form-data">
+						<div class="columns">
+							<div class="column">
+								
+								<div class="field">
+									<label class="label">Nama</label>
+									<div class="control">
+										<input class="input" type="text" placeholder="Nama" name="nama" value="John Doe">
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">NIM</label>
+									<div class="control">
+										<input class="input" type="text" placeholder="NIM" name="nim" value="210202304">
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Jurusan</label>
+									<div class="control">
+										<input class="input" type="text" placeholder="Jurusan" name="jurusan" value="Teknik Informatika">
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Status Kemahasiswaan</label>
+									<div class="control">
+										<input class="input" type="text" placeholder="Status Kemahasiswaan" name="status_kemahasiswaan" value="Aktif">
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Pernah Ikut MBMK</label>
+									<div class="control">
+										<input class="input" type="text" placeholder="Pernah Ikut MBMK" name="pernah_ikut_mbmk" value="Ya">
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Pernah MBKM Apapun</label>
+									<div class="control">
+										<input class="input" type="text" placeholder="Pernah MBKM Apapun" name="pernah_mbkm_apapun" value="Tidak">
+									</div>
+								</div>
+							</div>
+							<div class="column">
+								<div class="field">
+									<label class="label">Lolos MBKM</label>
+									<div class="control">
+										<input class="input" type="text" placeholder="Lolos MBKM" name="lolos_mbkm" value="Belum">
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Performa IPK</label>
+									<div class="control">
+										<input class="input" type="text" placeholder="Performa IPK" name="performa_ipk" value="Baik">
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Nilai IPK</label>
+									<div class="control">
+										<input class="input" type="text" placeholder="Nilai IPK" name="nilai_ipk" value="3.75">
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Ikut Organisasi</label>
+									<div class="control">
+										<input class="input" type="text" placeholder="Ikut Organisasi" name="ikut_organisasi" value="Ya">
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Jumlah Organisasi</label>
+									<div class="control">
+										<input class="input" type="text" placeholder="Jumlah Organisasi" name="jumlah_organisasi" value="3">
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Scan KTP</label>
+									<div class="control">
+										<input class="input" type="file" name="scan_ktp">
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Upload Sertifikat</label>
+									<div class="control">
+										<input class="input" type="file" name="upload_sertifikat">
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Upload CV</label>
+									<div class="control">
+										<input class="input" type="file" name="upload_cv">
+									</div>
+								</div>
+								<div class="field">
+									<label class="label">Upload Surat Rekomendasi</label>
+									<div class="control">
+										<input class="input" type="file" name="upload_surat_rekomendasi">
+									</div>
+								</div>
+							</div>
+						</div>
+						<button type="button" onclick="sendData()">Submit</button>
+					</form>
+					
+				</section>
+				<footer class="modal-card-foot">
+					<button class="button is-success" onclick="sendData()">Save changes</button>
+					<button class="button" id="close-modal-footer">Cancel</button>
+				</footer>
+			</div>
+		</div>
+		
+		
+		  
+		<!-- Data Modal -->
+		<div class="modal" id="dataModal">
+			<div class="modal-background"></div>
+			<div class="modal-card">
+				<header class="modal-card-head">
+					<p class="modal-card-title">Daftar Mahasiswa</p>
+					<button class="delete" aria-label="close" id="close-modal-data"></button>
+				</header>
+				<section class="modal-card-body">
+					<!-- Responsive Table -->
+					<button class="button is-link is-small" onclick="loadMahasiswaData()">Refresh Tabel</button>
+					<br>
+					<br>
+					<div class="table-container">
+						<table class="table is-fullwidth is-striped">
+							<thead>
+								<tr>
+									<th>Nama</th>
+									<th>NIM</th>
+									<th>Jurusan</th>
+									<th>Status Kemahasiswaan</th>
+									<th>Pernah Ikut MBMK</th>
+									<th>Pernah MBKM Apapun</th>
+									<th>Lolos MBKM</th>
+									<th>Performa IPK</th>
+									<th>Nilai IPK</th>
+									<th>Ikut Organisasi</th>
+									<th>Jumlah Organisasi</th>
+									<th>Scan KTP</th>
+									<th>Upload Sertifikat</th>
+									<th>Upload CV</th>
+									<th>Upload Surat Rekomendasi</th>
+								</tr>
+							</thead>
+							<tbody id="mahasiswa_data">
+								<!-- Example Row -->
+								<tr>
+									<td colspan="14"><h4>Loading Data ..</h4></td>
+									
+								</tr>
+								<!-- Add more rows as needed -->
+							</tbody>
+						</table>
+					</div>
+				</section>
+				<footer class="modal-card-foot">
+					<button class="button" id="close-modal-data-footer">Close</button>
+				</footer>
+			</div>
+		</div>
+		<!-- Hasil Modal -->
+		<div class="modal" id="dataHasil">
+			<div class="modal-background"></div>
+			<div class="modal-card">
+				<header class="modal-card-head">
+					<p class="modal-card-title">Data Latih Model SVM</p>
+					<button class="delete" aria-label="close" id="close-modal-hasil"></button>
+				</header>
+				<section class="modal-card-body">
+					<!-- Responsive Table -->
+					<div class="table-container">
+						<table class="table is-fullwidth is-striped">
+							<thead>
+								<tr>
+									<th>Nama</th>
+									<th>NIM</th>
+									<th>Jurusan</th>
+									<th>Status Kemahasiswaan</th>
+									<th>Lolos MBKM</th>
+								</tr>
+							</thead>
+							<tbody id="dataTableHasil">
+								
+							</tbody>
+						</table>
+					</div>
+				</section>
+				<footer class="modal-card-foot">
+					<button class="button" id="close-modal-hasil-footer">Close</button>
+				</footer>
+			</div>
+		</div>
+		<!-- Modal Train Model -->
+		<div class="modal" id="trainModel" >
+			<div class="modal-background"></div>
+			<div class="modal-card" style="width: 80%;">
+				<header class="modal-card-head">
+					<p class="modal-card-title">Train Model</p>
+					<button class="delete" aria-label="close" id="close-modal-train-model"></button>
+				</header>
+				<section class="modal-card-body">
+					<div class="columns">
+						<div class="column is-one-third">
+							<div class="field">
+								<div class="control">
+									<h3>Train Button</h3>
+									<p style="text-align: justify;">
+										Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus dolor rerum earum, ipsam hic odio quibusdam, consectetur ab tempora eveniet natus fugit laudantium sequi sit aliquam eius perferendis officia porro.
+									</p>
+									<br>
+									<button class="button is-success" id="train-model-button">Train Model</button>
+								</div>
+							</div>
+						</div>
+						<div class="column is-two-thirds">
+							<div class="field">
+								<label class="label">Log</label>
+								<div class="control">
+									<textarea style="background-color: rgb(197, 197, 197);" readonly class="textarea" id="log" rows="10" placeholder="Training log will be shown here...">Training log will be shown here...</textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<footer class="modal-card-foot">
+					<button class="button" id="close-modal-train-model-footer">Close</button>
+				</footer>
+			</div>
+		</div>
+		<!-- Chart Modal -->
+		<div class="modal" id="chartModal">
+			<div class="modal-background"></div>
+			<div class="modal-card">
+				<header class="modal-card-head">
+					<p class="modal-card-title">ECharts in Modal</p>
+					<button class="delete" aria-label="close" id="close-modal-chart"></button>
+				</header>
+				<section class="modal-card-body">
+					<div class="columns is-multiline">
+						<div class="column is-half">
+							<div id="scatterPlot" class="chart-container"></div>
+						</div>
+						<div class="column is-half">
+							<div id="lineChart" class="chart-container"></div>
+						</div>
+						<div class="column is-half">
+							<div id="barChart" class="chart-container"></div>
+						</div>
+						<div class="column is-half">
+							<div id="donutChart" class="chart-container"></div>
+						</div>
+					</div>
+				</section>
+				<footer class="modal-card-foot">
+					<button class="button" id="close-modal-chart-footer">Close</button>
+				</footer>
+			</div>
+		</div>
+
+		<div id="success-modal" class="modal">
+			<div class="modal-background"></div>
+			<div class="modal-card">
+				<header class="modal-card-head">
+					<p class="modal-card-title">Sukses</p>
+				</header>
+				<section class="modal-card-body">
+					<p>Data berhasil dikirim!</p>
+				</section>
+			</div>
+		</div>
+	</body>
+	
+	<!-- Scripts -->
+	<script src="{{ url_for('static', filename='js/main.js') }}" ></script>
+	
+</html>
