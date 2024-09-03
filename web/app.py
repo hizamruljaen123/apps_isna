@@ -40,11 +40,12 @@ def load_data():
     connection = get_db_connection()
     query = """
     SELECT 
-        Nama, Jenis_Kelamin, Berat_Badan_Saat_Lahir_kg, Tinggi_Badan_Saat_Lahir_cm,
+        id_data,Nama, Jenis_Kelamin, Berat_Badan_Saat_Lahir_kg, Tinggi_Badan_Saat_Lahir_cm,
         Berat_Badan_Saat_Ini_kg, Tinggi_Badan_Saat_Ini_cm, Usia_bulan,
         Z_Score_Berat_Badan, Z_Score_Tinggi_Badan, Klasifikasi_Z_score_TB,
         Klasifikasi_Z_score_BB, Status_Gizi
     FROM children_nutrition
+    ORDER BY id_data DESC
     """
     data_df = pd.read_sql(query, connection)
     connection.close()
@@ -120,7 +121,7 @@ def predict():
     connection = get_db_connection()
     query = """
     SELECT 
-        Nama, Jenis_Kelamin, Berat_Badan_Saat_Lahir_kg, Tinggi_Badan_Saat_Lahir_cm,
+        id_data,Nama, Jenis_Kelamin, Berat_Badan_Saat_Lahir_kg, Tinggi_Badan_Saat_Lahir_cm,
         Berat_Badan_Saat_Ini_kg, Tinggi_Badan_Saat_Ini_cm, Usia_bulan,
         Z_Score_Berat_Badan, Z_Score_Tinggi_Badan
     FROM data_uji
@@ -152,11 +153,12 @@ def view_data_uji():
     connection = get_db_connection()
     query = """
     SELECT 
-        Nama, Jenis_Kelamin, Berat_Badan_Saat_Lahir_kg, Tinggi_Badan_Saat_Lahir_cm,
+        id_data,Nama, Jenis_Kelamin, Berat_Badan_Saat_Lahir_kg, Tinggi_Badan_Saat_Lahir_cm,
         Berat_Badan_Saat_Ini_kg, Tinggi_Badan_Saat_Ini_cm, Usia_bulan,
         Z_Score_Berat_Badan, Z_Score_Tinggi_Badan, Klasifikasi_Z_score_TB,
         Klasifikasi_Z_score_BB
     FROM data_uji
+    ORDER BY id_data DESC
     """
     data_uji_df = pd.read_sql(query, connection)
     connection.close()
@@ -171,11 +173,12 @@ def view_data_latih():
     connection = get_db_connection()
     query = """
     SELECT 
-        Nama, Jenis_Kelamin, Berat_Badan_Saat_Lahir_kg, Tinggi_Badan_Saat_Lahir_cm,
+        id_data, Nama, Jenis_Kelamin, Berat_Badan_Saat_Lahir_kg, Tinggi_Badan_Saat_Lahir_cm,
         Berat_Badan_Saat_Ini_kg, Tinggi_Badan_Saat_Ini_cm, Usia_bulan,
         Z_Score_Berat_Badan, Z_Score_Tinggi_Badan, Klasifikasi_Z_score_TB,
         Klasifikasi_Z_score_BB, Status_Gizi
     FROM children_nutrition
+    ORDER BY id_data DESC
     """
     data_latih_df = pd.read_sql(query, connection)
     connection.close()
@@ -237,6 +240,109 @@ def train_model(X_train, y_train):
     grid_search = GridSearchCV(pipeline, param_grid, cv=cv_strategy, n_jobs=-1, verbose=1)
     grid_search.fit(X_train, y_train)
     return grid_search.best_estimator_, grid_search
+@app.route('/tambah-data-latih', methods=['POST'])
+def tambah_data_latih():
+    try:
+        # Ambil data dari form
+        data = request.form
+        # Koneksi ke database
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        # Query SQL untuk insert data
+        query = """
+        INSERT INTO children_nutrition (Nama, Jenis_Kelamin, Berat_Badan_Saat_Lahir_kg, Tinggi_Badan_Saat_Lahir_cm,
+                                        Berat_Badan_Saat_Ini_kg, Tinggi_Badan_Saat_Ini_cm, Usia_bulan,
+                                        Z_Score_Berat_Badan, Z_Score_Tinggi_Badan, Klasifikasi_Z_score_TB,
+                                        Klasifikasi_Z_score_BB, Status_Gizi)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        cursor.execute(query, (
+            data['Nama'], data['Jenis_Kelamin'], data['Berat_Badan_Saat_Lahir_kg'], data['Tinggi_Badan_Saat_Lahir_cm'],
+            data['Berat_Badan_Saat_Ini_kg'], data['Tinggi_Badan_Saat_Ini_cm'], data['Usia_bulan'],
+            data['Z_Score_Berat_Badan'], data['Z_Score_Tinggi_Badan'], data['Klasifikasi_Z_score_TB'],
+            data['Klasifikasi_Z_score_BB'], data['Status_Gizi']
+        ))
+
+        connection.commit()
+        cursor.close()
+        connection.close()
+
+        return jsonify({"message": "Data berhasil ditambahkan"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+@app.route('/tambah-data-uji', methods=['POST'])
+def tambah_data_uji():
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+        # Ambil data dari form
+        nama = request.form['Nama']
+        jenis_kelamin = request.form['Jenis_Kelamin']
+        berat_badan_lahir = request.form['Berat_Badan_Saat_Lahir_kg']
+        tinggi_badan_lahir = request.form['Tinggi_Badan_Saat_Lahir_cm']
+        berat_badan_saat_ini = request.form['Berat_Badan_Saat_Ini_kg']
+        tinggi_badan_saat_ini = request.form['Tinggi_Badan_Saat_Ini_cm']
+        usia_bulan = request.form['Usia_bulan']
+        z_score_berat_badan = request.form['Z_Score_Berat_Badan']
+        z_score_tinggi_badan = request.form['Z_Score_Tinggi_Badan']
+        klasifikasi_tb = request.form['Klasifikasi_Z_score_TB']
+        klasifikasi_bb = request.form['Klasifikasi_Z_score_BB']
+
+        # Query untuk menyimpan data ke database
+        query = """
+        INSERT INTO data_uji (Nama, Jenis_Kelamin, Berat_Badan_Saat_Lahir_kg, Tinggi_Badan_Saat_Lahir_cm, 
+        Berat_Badan_Saat_Ini_kg, Tinggi_Badan_Saat_Ini_cm, Usia_bulan, Z_Score_Berat_Badan, Z_Score_Tinggi_Badan, 
+        Klasifikasi_Z_score_TB, Klasifikasi_Z_score_BB) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+
+        cursor.execute(query, (nama, jenis_kelamin, berat_badan_lahir, tinggi_badan_lahir, berat_badan_saat_ini,
+                               tinggi_badan_saat_ini, usia_bulan, z_score_berat_badan, z_score_tinggi_badan,
+                               klasifikasi_tb, klasifikasi_bb))
+        connection.commit()
+
+        return jsonify({"message": "Data uji berhasil ditambahkan"}), 200
+
+    except Exception as e:
+        connection.rollback()
+        return jsonify({"error": str(e)}), 500
+
+    finally:
+        cursor.close()
+        connection.close()
+@app.route('/hapus-data-latih', methods=['POST'])
+def hapus_data_latih():
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    try:
+        id_data = request.form['Id_data']
+        cursor.execute("DELETE FROM children_nutrition WHERE id_data = %s", (id_data,))
+        connection.commit()
+        return jsonify({"message": "Data latih berhasil dihapus"}), 200
+    except Exception as e:
+        connection.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        connection.close()
+
+@app.route('/hapus-data-uji', methods=['POST'])
+def hapus_data_uji():
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    try:
+        id_data = request.form['Id_data']
+        cursor.execute("DELETE FROM data_uji WHERE id_data = %s", (id_data,))
+        connection.commit()
+        return jsonify({"message": "Data uji berhasil dihapus"}), 200
+    except Exception as e:
+        connection.rollback()
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        connection.close()
 
 if __name__ == '__main__':
     app.run(debug=True)
